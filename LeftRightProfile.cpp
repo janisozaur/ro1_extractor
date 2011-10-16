@@ -1,11 +1,19 @@
 #include "LeftRightProfile.h"
 
-#include <QString>
+#include <QDebug>
 
-#define THRESHOLD 128
+#define EXPECTED_ARGS 1
 
-LeftRightProfile::LeftRightProfile(QStringList)
+LeftRightProfile::LeftRightProfile(QStringList args)
 {
+	if (args.length() < EXPECTED_ARGS) {
+		qFatal("Extractor %s expects %d arguments.\n", name().toStdString().c_str(), EXPECTED_ARGS);
+	}
+	bool ok;
+	mThreshold = qBound(0, args.at(0).toInt(&ok), 255);
+	if (!ok) {
+		qFatal("Extractor argument %s is not a number.\n", args.at(0).toStdString().c_str());
+	}
 }
 
 QVector<float> LeftRightProfile::features(const quint8 *data, const QSize size) const
@@ -16,7 +24,7 @@ QVector<float> LeftRightProfile::features(const quint8 *data, const QSize size) 
 	for (int i = 0; i < height; i++) {
 		bool found = false;
 		for (int j = 0; j < width; j++) {
-			if (data[i * width + j] > THRESHOLD) {
+			if (data[i * width + j] > mThreshold) {
 				result.append(j);
 				found = true;
 				break;
@@ -29,7 +37,7 @@ QVector<float> LeftRightProfile::features(const quint8 *data, const QSize size) 
 	for (int i = 0; i < height; i++) {
 		bool found = false;
 		for (int j = width - 1; j >= 0; j--) {
-			if (data[i * width + j] > THRESHOLD) {
+			if (data[i * width + j] > mThreshold) {
 				result.append(j);
 				found = true;
 				break;
