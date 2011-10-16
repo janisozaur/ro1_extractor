@@ -4,6 +4,10 @@
 
 #define THRESHOLD 128
 
+LeftRightProfile::LeftRightProfile(QStringList)
+{
+}
+
 QVector<float> LeftRightProfile::features(const quint8 *data, const QSize size) const
 {
 	QVector<float> result;

@@ -1,6 +1,6 @@
 #include "ImageExtractor.h"
 #include "FeatureExtractorInterface.h"
-#include "LeftRightProfile.h"
+#include "FeatureExtractorFactory.h"
 
 #include <QtCore/QCoreApplication>
 #include <QStringList>
@@ -12,12 +12,14 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	QStringList arguments = QCoreApplication::instance()->arguments();
-	if (arguments.count() < 4) {
+	if (arguments.count() < 5) {
 		QStringList usage;
 		usage << arguments.at(0);
 		usage << "[input file]";
 		usage << "[output file]";
 		usage << "[limit (use 0 to parse all)]";
+		usage << "[extractor]";
+		usage << "[extractor params]";
 		qDebug() << usage.join(" ");
 		qFatal("Too few arguments");
 	}
@@ -44,7 +46,10 @@ int main(int argc, char *argv[])
 		qFatal("Failed to open file %s for writing.\n", f.fileName().toStdString().c_str());
 	}
 	QTextStream output(&f);
-	FeatureExtractorInterface *fei = new LeftRightProfile();
+	FeatureExtractorInterface *fei = FeatureExtractorFactory::getExtractor(arguments.mid(4));
+	if (fei == NULL) {
+		qFatal("Failed to create \"%s\" extractor.\n", arguments.at(4).toStdString().c_str());
+	}
 	for (unsigned int i = 0; i < count; i++) {
 		//ie.display(1, threshold);
 		QVector<float> features = fei->features(ie.extract(i), ie.itemSize());
