@@ -28,7 +28,7 @@ QVector<float> LeftRightProfile::features(const quint8 *data, const QSize size) 
 	}
 	for (int i = 0; i < height; i++) {
 		bool found = false;
-		for (int j = width; j > 0; j--) {
+		for (int j = width - 1; j >= 0; j--) {
 			if (data[i * width + j] > THRESHOLD) {
 				result.append(j);
 				found = true;
