@@ -12,32 +12,50 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	QStringList arguments = QCoreApplication::instance()->arguments();
-	if (arguments.count() < 3) {
+	if (arguments.count() < 4) {
 		QStringList usage;
 		usage << arguments.at(0);
-		usage << "[file to open]";
-		usage << "[threshold]";
+		usage << "[input file]";
+		usage << "[output file]";
+		usage << "[limit (use 0 to parse all)]";
 		qDebug() << usage.join(" ");
 		qFatal("Too few arguments");
 	}
+
+	bool ok;
+	quint32 count = arguments.at(3).toInt(&ok);
+	if (!ok) {
+		qFatal("Argument 3 (%s) is not a number.\n", arguments.at(3).toStdString().c_str());
+	}
+
 	QString fileName = arguments.at(1);
 	QFile archive(fileName);
 	if (!archive.open(QIODevice::ReadOnly)) {
 		qFatal("Failed to open file %s.\n", fileName.toStdString().c_str());
 	}
 
-	bool ok;
 	ImageExtractor ie(&archive);
-	const quint8 threshold = qBound(0, arguments.at(2).toInt(&ok), 255);
-	if (ok) {
-		ie.display(1, threshold);
-		FeatureExtractorInterface *fei = new LeftRightProfile(ie.extract(1), ie.itemSize());
+	count = qBound((quint32)0, count, ie.itemCount());
+	if (count == 0) {
+		count = ie.itemCount();
+	}
+	QFile f(arguments.at(2));
+	if (!f.open(QIODevice::WriteOnly)) {
+		qFatal("Failed to open file %s for writing.\n", f.fileName().toStdString().c_str());
+	}
+	QTextStream output(&f);
+	for (unsigned int i = 0; i < count; i++) {
+		//ie.display(1, threshold);
+		FeatureExtractorInterface *fei = new LeftRightProfile(ie.extract(i), ie.itemSize());
 		QVector<float> features = fei->features();
-		for (int i = 0; i < features.size(); i++) {
-			qDebug() << features.at(i);
+		for (int j = 0; j < features.size(); j++) {
+			output << features.at(j) << " ";
 		}
+		output << endl;
+		qDebug() << "written" << features.size() << "features for item" << i << "to" << f.fileName();
 		delete fei;
 	}
+	f.close();
 
 	archive.close();
 
