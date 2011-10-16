@@ -6,14 +6,8 @@
 class LeftRightProfile : public FeatureExtractorInterface
 {
 public:
-	LeftRightProfile(const quint8 *data, const QSize size);
-	int size() const;
-	QVector<float> features() const;
+	QVector<float> features(const quint8 *data, const QSize size) const;
 	QString name() const;
-
-private:
-	const quint8 *mData;
-	const QSize mSize;
 };
 
 #endif // LEFTRIGHTPROFILE_H

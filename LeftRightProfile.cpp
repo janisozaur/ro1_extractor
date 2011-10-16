@@ -4,26 +4,15 @@
 
 #define THRESHOLD 128
 
-LeftRightProfile::LeftRightProfile(const quint8 *data, const QSize size) :
-	mData(data),
-	mSize(size)
-{
-}
-
-int LeftRightProfile::size() const
-{
-	return mSize.height() * 2;
-}
-
-QVector<float> LeftRightProfile::features() const
+QVector<float> LeftRightProfile::features(const quint8 *data, const QSize size) const
 {
 	QVector<float> result;
-	const int height = mSize.height();
-	const int width = mSize.width();
+	const int height = size.height();
+	const int width = size.width();
 	for (int i = 0; i < height; i++) {
 		bool found = false;
 		for (int j = 0; j < width; j++) {
-			if (mData[i * width + j] > THRESHOLD) {
+			if (data[i * width + j] > THRESHOLD) {
 				result.append(j);
 				found = true;
 				break;
@@ -36,7 +25,7 @@ QVector<float> LeftRightProfile::features() const
 	for (int i = 0; i < height; i++) {
 		bool found = false;
 		for (int j = width; j > 0; j--) {
-			if (mData[i * width + j] > THRESHOLD) {
+			if (data[i * width + j] > THRESHOLD) {
 				result.append(j);
 				found = true;
 				break;

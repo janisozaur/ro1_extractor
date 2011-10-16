@@ -44,17 +44,17 @@ int main(int argc, char *argv[])
 		qFatal("Failed to open file %s for writing.\n", f.fileName().toStdString().c_str());
 	}
 	QTextStream output(&f);
+	FeatureExtractorInterface *fei = new LeftRightProfile();
 	for (unsigned int i = 0; i < count; i++) {
 		//ie.display(1, threshold);
-		FeatureExtractorInterface *fei = new LeftRightProfile(ie.extract(i), ie.itemSize());
-		QVector<float> features = fei->features();
+		QVector<float> features = fei->features(ie.extract(i), ie.itemSize());
 		for (int j = 0; j < features.size(); j++) {
 			output << features.at(j) << " ";
 		}
 		output << endl;
 		qDebug() << "written" << features.size() << "features for item" << i << "to" << f.fileName();
-		delete fei;
 	}
+	delete fei;
 	f.close();
 
 	archive.close();
