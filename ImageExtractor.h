@@ -19,7 +19,7 @@ public:
 	ImageExtractor(QIODevice *data);
 	~ImageExtractor();
 	quint8 *extractAll() const;
-	quint8 *extract(const int itemNumber) const;
+	quint8 *extract(const unsigned int itemNumber) const;
 	void display(const int itemNumber, const quint8 threshold) const;
 	quint32 itemCount() const;
 	quint32 itemByteSize() const;

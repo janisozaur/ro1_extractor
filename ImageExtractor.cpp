@@ -52,7 +52,7 @@ quint8 *ImageExtractor::extractAll() const
 	return buffer;
 }
 
-quint8 *ImageExtractor::extract(const int itemNumber) const
+quint8 *ImageExtractor::extract(const unsigned int itemNumber) const
 {
 	const quint32 itemsize = mDimensions.at(1) * mDimensions.at(2);
 	quint8 *buffer = new quint8[itemsize];
