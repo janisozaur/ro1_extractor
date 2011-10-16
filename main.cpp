@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
 
 	ArchiveExtractor ie(&imagesArchive);
 	ArchiveExtractor le(&labelsArchive);
+	if (ie.itemCount() != le.itemCount() || ie.itemCount() == 0 || le.itemCount() == 0) {
+		qFatal("There are no items in the archive or archive sizes mismatch.\n");
+	}
 	count = qBound((quint32)0, count, ie.itemCount());
 	if (count == 0) {
 		count = ie.itemCount();
@@ -59,6 +62,7 @@ int main(int argc, char *argv[])
 	}
 	output << fei->name() << endl;
 	output << count << endl;
+	output << fei->features(ie.extract(0), ie.itemSize()).size() << endl;
 	for (unsigned int i = 0; i < count; i++) {
 		//ie.display(1, threshold);
 		QVector<float> features = fei->features(ie.extract(i), ie.itemSize());
