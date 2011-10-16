@@ -17,15 +17,19 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     FeatureExtractorInterface.cpp \
-    ImageExtractor.cpp \
     LeftRightProfile.cpp \
-    FeatureExtractorFactory.cpp
+    FeatureExtractorFactory.cpp \
+    ArchiveExtractor.cpp
 
 HEADERS += \
     FeatureExtractorInterface.h \
-    ImageExtractor.h \
     LeftRightProfile.h \
-    FeatureExtractorFactory.h
+    FeatureExtractorFactory.h \
+    ArchiveExtractor.h
+
+
+
+
 
 
 
