@@ -21,14 +21,20 @@ SOURCES += main.cpp \
     LeftRightProfile.cpp \
     FeatureExtractorFactory.cpp \
     ArchiveExtractor.cpp \
-    Projection.cpp
+    Projection.cpp \
+    Crossing.cpp \
+    Zones.cpp
 
 HEADERS += \
     FeatureExtractorInterface.h \
     LeftRightProfile.h \
     FeatureExtractorFactory.h \
     ArchiveExtractor.h \
-    Projection.h
+    Projection.h \
+    Crossing.h \
+    Zones.h
+
+
 
 
 
