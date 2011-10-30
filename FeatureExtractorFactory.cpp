@@ -1,5 +1,6 @@
 #include "FeatureExtractorFactory.h"
 #include "LeftRightProfile.h"
+#include "Projection.h"
 
 FeatureExtractorInterface *FeatureExtractorFactory::getExtractor(QStringList args)
 {
@@ -8,6 +9,8 @@ FeatureExtractorInterface *FeatureExtractorFactory::getExtractor(QStringList arg
 		return extractor;
 	} else if (args.at(0) == "LeftRightProfile") {
 		extractor = new LeftRightProfile(args.mid(1));
-	}
+    } else if (args.at(0) == "Projection") {
+        extractor = new Projection(args.mid(1));
+    }
 	return extractor;
 }

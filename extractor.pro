@@ -19,13 +19,19 @@ SOURCES += main.cpp \
     FeatureExtractorInterface.cpp \
     LeftRightProfile.cpp \
     FeatureExtractorFactory.cpp \
-    ArchiveExtractor.cpp
+    ArchiveExtractor.cpp \
+    Projection.cpp
 
 HEADERS += \
     FeatureExtractorInterface.h \
     LeftRightProfile.h \
     FeatureExtractorFactory.h \
-    ArchiveExtractor.h
+    ArchiveExtractor.h \
+    Projection.h
+
+
+
+
 
 
 
