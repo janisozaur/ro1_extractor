@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 	for (unsigned int i = 0; i < count; i++) {
 		//ie.display(1, threshold);
 		QVector<float> features = fei->features(ie.extract(i), ie.itemSize());
-		output << *le.extract(i) << ": ";
+		output << *le.extract(i) << " ";
 		for (int j = 0; j < features.size(); j++) {
 			output << features.at(j) << " ";
 		}
