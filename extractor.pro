@@ -14,6 +14,7 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -mtune=core2 -march=core2 -O3
 
 SOURCES += main.cpp \
     FeatureExtractorInterface.cpp \
